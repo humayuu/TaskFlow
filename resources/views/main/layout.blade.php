@@ -34,7 +34,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/" class="nav-link {{ request()->is('/') ? 'active' : 'text-white' }}">
+                    <a href="{{ route('users.index') }}"
+                        class="nav-link {{ request()->is('/') ? 'active' : 'text-white' }}">
                         <i class="fa-solid fa-users me-2"></i>
                         Users
                     </a>
@@ -56,9 +57,15 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                     id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32"
-                        class="rounded-circle me-2">
-                    <strong>{{ Auth::user()->name }}</strong>
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->first_name . ' ' . Auth::user()->last_name) }}&background=random"
+                        alt="{{ Auth::user()->first_name }}" width="32" height="32" class="rounded-circle me-2">
+                    <div class="d-flex flex-column">
+                        <strong>{{ Auth::user()->first_name }}</strong>
+                        <span class="badge bg-secondary text-capitalize"
+                            style="width: fit-content; font-size: 0.65rem;">
+                            {{ Auth::user()->role }}
+                        </span>
+                    </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>Settings</a></li>
@@ -78,8 +85,12 @@
             </div>
         </div>
 
-        <div class="flex-grow-1 p-4">
-            @yield('main')
+        <div class="flex-grow-1 p-4 m-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    @yield('main')
+                </div>
+            </div>
         </div>
 
     </div>

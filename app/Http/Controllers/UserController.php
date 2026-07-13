@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Users\StoreUserRequest;
+use App\Http\Requests\Users\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id', 'DESC')->paginate(10);
+        $users = User::orderBy('id', 'DESC')->paginate(5);
 
         return view("main.users.index", compact('users'));
     }
@@ -41,7 +42,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view("main.users.show", compact("user"));
     }
 
     /**
@@ -49,15 +52,22 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $user = User::findOrFail($id);
+
+        return view("main.users.edit", compact("user"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->update($request->validated());
+
+        return redirect()->back()->with('success', 'User Updated Successfully');
     }
 
     /**
@@ -65,6 +75,10 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User Deleted Successfully');
     }
 }

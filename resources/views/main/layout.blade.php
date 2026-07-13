@@ -28,26 +28,25 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="/" class="nav-link {{ request()->is('/') ? 'active' : 'text-white' }}">
+                    <a href="/" class="nav-link text-white">
                         <i class="fa-solid fa-gauge me-2"></i>
                         Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('users.index') }}"
-                        class="nav-link {{ request()->is('/') ? 'active' : 'text-white' }}">
+                    <a href="{{ route('users.index') }}" class="nav-link text-white">
                         <i class="fa-solid fa-users me-2"></i>
                         Users
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/" class="nav-link {{ request()->is('/') ? 'active' : 'text-white' }}">
+                    <a href="{{ route('task.create') }}" class="nav-link text-white">
                         <i class="fa-solid fa-square-plus me-2"></i>
                         Create Task
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/" class="nav-link {{ request()->is('/') ? 'active' : 'text-white' }}">
+                    <a href="/" class="nav-link text-white">
                         <i class="fa-solid fa-list-check me-2"></i>
                         All Task
                     </a>

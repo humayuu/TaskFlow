@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id', 'DESC')->paginate(5);
+        $users = User::where("id", "!=", 1)->orderBy('id', 'DESC')->paginate(5);
 
         return view("main.users.index", compact('users'));
     }
@@ -80,5 +80,19 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->back()->with('success', 'User Deleted Successfully');
+    }
+
+    /**
+     * For Update User Status
+     */
+    public function updateStatus(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        $newsStatus = $user->is_active == 1 ? 0 : 1;
+
+        $user->update(['is_active' => $newsStatus]);
+
+        return redirect()->back()->with('success', 'User Status Updated Successfully');
     }
 }

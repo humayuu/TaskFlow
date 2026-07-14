@@ -13,15 +13,23 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $allTask = Task::with('user')
-            ->orderBy('id', 'DESC')
-            ->paginate(5);
+        $query = Task::with('user')->orderBy('id', 'DESC');
+
+        if ($request->filled('status')) {
+            if ($request->status === 'due') {
+                $query->where('due_date', '<', now())
+                    ->where('status', '!=', 'completed');
+            } else {
+                $query->where('status', $request->status);
+            }
+        }
+
+        $allTask = $query->paginate(5)->withQueryString();
 
         return view('main.task.index', compact('allTask'));
     }
-
     /**
      * Show the form for creating a new resource.
      */

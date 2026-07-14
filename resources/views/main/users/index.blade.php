@@ -16,6 +16,18 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
+
+    <form method="GET" action="{{ route('users.index') }}">
+        <div class="col-2 mb-3">
+            <select class="form-select" name="status" onchange="this.form.submit()">
+                <option value="" {{ request('status') === null ? 'selected' : '' }}>All Users</option>
+                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
+                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive</option>
+            </select>
+        </div>
+        <noscript><button type="submit">Filter</button></noscript>
+    </form>
     <div class="table-responsive">
         @if ($users->count() > 0)
             <table class="table table-hover align-middle mb-0 fs-5">

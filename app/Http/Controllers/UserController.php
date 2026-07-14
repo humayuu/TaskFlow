@@ -12,11 +12,22 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where("id", "!=", 1)->orderBy('id', 'DESC')->paginate(5);
 
-        return view("main.users.index", compact('users'));
+        $query = User::orderBy('id', 'DESC');
+
+        if ($request->filled('status')) {
+            if ($request->status == 1) {
+                $query->where('is_active', 1);
+            } else {
+                $query->where('is_active', 0);
+            }
+        }
+
+        $users = $query->paginate(5)->withQueryString();
+
+        return view('main.users.index', compact('users'));
     }
 
     /**

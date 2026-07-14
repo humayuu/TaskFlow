@@ -14,15 +14,18 @@
         </div>
     @endif
 
-    <div class="col-2 mb-3">
-        <select class="form-select" aria-label="Default select example">
-            <option selected disabled>Open to Filter</option>
-            <option value="1">Pending</option>
-            <option value="2">Complete</option>
-            <option value="3">In Progress</option>
-            <option value="3">Due</option>
-        </select>
-    </div>
+    <form method="GET" action="{{ route('task.index') }}">
+        <div class="col-2 mb-3">
+            <select class="form-select" name="status" aria-label="Filter by status" onchange="this.form.submit()">
+                <option value="" {{ !request('status') ? 'selected' : '' }}>All Tasks</option>
+                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                <option value="due" {{ request('status') == 'due' ? 'selected' : '' }}>Due (overdue)</option>
+            </select>
+        </div>
+        <noscript><button type="submit">Filter</button></noscript>
+    </form>
 
     <div class="table-responsive">
         @if ($allTask->count() > 0)

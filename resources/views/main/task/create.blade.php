@@ -25,21 +25,29 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label for="user_id" class="form-label">
-                        <i class="fa-solid fa-user-tag me-1"></i> Assigned To <span class="text-danger">*</span>
+                    <label for="user_id" class="form-label d-flex align-items-center gap-1">
+                        <i class="fa-solid fa-user-tag text-muted"></i>
+                        <span>Assigned To</span>
+                        <span class="text-danger">*</span>
                     </label>
+
                     <select class="form-select @error('user_id') is-invalid @enderror" id="user_id" name="user_id">
-                        <option value="" selected disabled>Select a user</option>
+                        <option value="" selected disabled>Select a user...</option>
+
                         @forelse ($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                {{ $user->first_name . ' ' . $user->last_name }}
+                            <option value="{{ $user->id }}"
+                                {{ old('user_id', $model->user_id ?? '') == $user->id ? 'selected' : '' }}>
+                                {{ $user->first_name }} {{ $user->last_name }} ({{ ucwords($user->role) }})
                             </option>
                         @empty
-                            <option disabled>No User Found!</option>
+                            <option disabled>No users available</option>
                         @endforelse
                     </select>
+
                     @error('user_id')
-                        <span class="invalid-feedback d-block">{{ $message }}</span>
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
                     @enderror
                 </div>
                 <div class="mb-3">

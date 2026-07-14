@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Task\StoreTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $allTask = Task::with('user')
+            ->orderBy('id', 'DESC')
+            ->paginate(5);
+
+        return view('main.task.index', compact('allTask'));
     }
 
     /**
@@ -41,7 +46,8 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $task = Task::with('user')->findOrFail($id);
+        return view('main.task.show', compact('task'));
     }
 
     /**
@@ -49,15 +55,19 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $users = User::where('is_active', 1)->get();
+        return view('main.task.edit', compact('task', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTaskRequest $request, string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->update($request->validated());
+        return redirect()->back()->with('success', 'Task Updated Successfully');
     }
 
     /**
@@ -65,6 +75,8 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->delete();
+        return redirect()->back()->with('success', 'Task Deleted Successfully');
     }
 }

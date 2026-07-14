@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable('user_id', 'title', 'description', 'due_date', 'status')]
 class Task extends Model
 {
-    //
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

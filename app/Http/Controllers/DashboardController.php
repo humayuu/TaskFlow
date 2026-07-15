@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -14,7 +15,7 @@ class DashboardController extends Controller
     public function dashboard()
     {
         // For Task Count
-        $pendingTask = Task::where('status', 'pending')->count();
+        $pendingTask = Task::where('status', 'pending')->where('id', Auth::user()->id)->count();
         $inProgressTask = Task::where('status', 'in_progress')->count();
         $completeTask = Task::where('status', 'complete')->count();
         $dueTask = Task::where('status', 'due')->count();

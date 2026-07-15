@@ -77,7 +77,7 @@
                         <i class="fa-solid fa-calendar-day me-1"></i> Due Date
                     </label>
                     <input type="date" id="due_date" class="form-control @error('due_date') is-invalid @enderror"
-                        name="due_date" value="{{ old('due_date') }}">
+                        name="due_date" value="{{ old('due_date') }}" min="{{ now()->format('Y-m-d') }}">
                     @error('due_date')
                         <span class="invalid-feedback d-block">{{ $message }}</span>
                     @enderror

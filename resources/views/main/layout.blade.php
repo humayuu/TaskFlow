@@ -28,7 +28,7 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="/" class="nav-link text-white">
+                    <a href="{{ url('/dashboard') }}" class="nav-link text-white">
                         <i class="fa-solid fa-gauge me-2"></i>
                         Dashboard
                     </a>

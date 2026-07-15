@@ -7,7 +7,7 @@
         <h1 class="text-primary fw-bold mb-0">
             <i class="fa-solid fa-list-check me-2"></i> Edit Task
         </h1>
-        <a href="{{ route('task.index') }}" class="btn btn-outline-primary px-3">
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary px-3">
             <i class="fa-solid fa-left-long me-1"></i> Back
         </a>
     </div>

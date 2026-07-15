@@ -15,7 +15,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        $query = User::orderBy('id', 'DESC');
+        $query = User::where("id", "!=", 1)
+            ->orderBy('id', 'DESC');
 
         if ($request->filled('status')) {
             if ($request->status == 1) {

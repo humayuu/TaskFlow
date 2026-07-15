@@ -32,7 +32,7 @@
             </li>
         </ul>
         <div>
-            <a href="{{ route('task.index') }}" class="btn btn-primary px-3 mt-3">
+            <a href="{{ url()->previous() }}" class="btn btn-primary px-3 mt-3">
                 <i class="fa-solid fa-left-long me-1"></i> Back
             </a>
         </div>

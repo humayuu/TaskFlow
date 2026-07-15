@@ -33,18 +33,20 @@
                         Dashboard
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}" class="nav-link text-white">
-                        <i class="fa-solid fa-users me-2"></i>
-                        Users
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('task.create') }}" class="nav-link text-white">
-                        <i class="fa-solid fa-square-plus me-2"></i>
-                        Create Task
-                    </a>
-                </li>
+                @if (Auth::user()->role == 'admin')
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}" class="nav-link text-white">
+                            <i class="fa-solid fa-users me-2"></i>
+                            Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('task.create') }}" class="nav-link text-white">
+                            <i class="fa-solid fa-square-plus me-2"></i>
+                            Create Task
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a href="{{ route('task.index') }}" class="nav-link text-white">
                         <i class="fa-solid fa-list-check me-2"></i>

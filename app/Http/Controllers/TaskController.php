@@ -7,6 +7,7 @@ use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -15,12 +16,16 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Task::with('user')->orderBy('id', 'DESC');
+        if (Auth::user()->role == 'employee' || Auth::user()->role == 'manager') {
+            $query = Task::with('user')->where('user_id', Auth::user()->id)->orderBy('id', 'DESC');
+        } else {
+            $query = Task::with('user')->orderBy('id', 'DESC');
+        }
 
         if ($request->filled('status')) {
             if ($request->status === 'due') {
                 $query->where('due_date', '<', now())
-                    ->where('status', '!=', 'completed');
+                    ->where('status', '!=', 'complete');
             } else {
                 $query->where('status', $request->status);
             }
@@ -30,12 +35,13 @@ class TaskController extends Controller
 
         return view('main.task.index', compact('allTask'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $users = User::where('id', "!=", 1)->where("is_active", 1)->get();
+        $users = User::where('role', '!=', 'admin')->where('is_active', 1)->get();
         return view('main.task.create', compact('users'));
     }
 
@@ -46,7 +52,7 @@ class TaskController extends Controller
     {
         Task::create($request->validated());
 
-        return redirect()->back()->with('success', "Task Created & Assigned Successfully");
+        return redirect()->route('task.index')->with('success', 'Task Created & Assigned Successfully');
     }
 
     /**
@@ -55,6 +61,12 @@ class TaskController extends Controller
     public function show(string $id)
     {
         $task = Task::with('user')->findOrFail($id);
+
+        abort_if(
+            Auth::user()->role !== 'admin' && Auth::user()->id !== $task->user_id,
+            403
+        );
+
         return view('main.task.show', compact('task'));
     }
 
@@ -64,6 +76,12 @@ class TaskController extends Controller
     public function edit(string $id)
     {
         $task = Task::findOrFail($id);
+
+        abort_if(
+            Auth::user()->role !== 'admin' && Auth::user()->id !== $task->user_id,
+            403
+        );
+
         $users = User::where('is_active', 1)->get();
         return view('main.task.edit', compact('task', 'users'));
     }
@@ -74,8 +92,14 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, string $id)
     {
         $task = Task::findOrFail($id);
+
+        abort_if(
+            Auth::user()->role !== 'admin' && Auth::user()->id !== $task->user_id,
+            403
+        );
+
         $task->update($request->validated());
-        return redirect()->back()->with('success', 'Task Updated Successfully');
+        return redirect()->route('task.index')->with('success', 'Task Updated Successfully');
     }
 
     /**
@@ -84,7 +108,10 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
         $task = Task::findOrFail($id);
+
+        abort_if(Auth::user()->role !== 'admin', 403);
+
         $task->delete();
-        return redirect()->back()->with('success', 'Task Deleted Successfully');
+        return redirect()->route('task.index')->with('success', 'Task Deleted Successfully');
     }
 }

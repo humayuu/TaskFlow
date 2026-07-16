@@ -15,7 +15,12 @@ Route::get('/', function () {
     return view('login');
 });
 
+
+
 Route::middleware(['auth', 'check-status'])->group(function () {
+    Route::get('/change/password', function () {
+        return view('change-password');
+    });
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'dashboard');
     });

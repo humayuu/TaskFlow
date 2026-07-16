@@ -6,6 +6,7 @@ use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -64,10 +65,11 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        $user = Cache::remember("users.edit.{$id}", 300, function () use ($id) {
+            return User::findOrFail($id);
+        });
 
-        $user = User::findOrFail($id);
-
-        return view("main.users.edit", compact("user"));
+        return view('main.users.edit', compact('user'));
     }
 
     /**

@@ -25,14 +25,15 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => 'Admin',
-            'last_name' => 'User',
-            'email' => 'admin@example.com',
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'role' => 'admin',
-            'password' => Hash::make('password123'),
-            'gender' => 'male',
-            'is_active' => true,
+            'role' => fake()->randomElement(['admin', 'manager', 'employee']),
+            'password' => static::$password ??= Hash::make('password123'),
+            'gender' => fake()->randomElement(['male', 'female']),
+            'is_active' => fake()->boolean(90),
+            'remember_token' => Str::random(10),
         ];
     }
 
@@ -43,6 +44,26 @@ class UserFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is an admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'role' => 'admin',
+        ]);
+    }
+
+    /**
+     * Indicate that the user is inactive.
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'is_active' => false,
         ]);
     }
 }

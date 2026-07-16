@@ -69,7 +69,9 @@
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>Settings</a></li>
+                    <li><a class="dropdown-item" href="{{ url('change/password') }}"><i
+                                class="fa-solid fa-gear me-2"></i>Change Password</a>
+                    </li>
                     <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
                     <li>
                         <hr class="dropdown-divider">

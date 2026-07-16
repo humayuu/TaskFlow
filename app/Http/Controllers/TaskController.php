@@ -52,7 +52,7 @@ class TaskController extends Controller
     {
         Task::create($request->validated());
 
-        return redirect()->route('task.index')->with('success', 'Task Created & Assigned Successfully');
+        return redirect()->back()->with('success', 'Task Created & Assigned Successfully');
     }
 
     /**
@@ -99,7 +99,7 @@ class TaskController extends Controller
         );
 
         $task->update($request->validated());
-        return redirect()->route('task.index')->with('success', 'Task Updated Successfully');
+        return redirect()->back()->with('success', 'Task Updated Successfully');
     }
 
     /**

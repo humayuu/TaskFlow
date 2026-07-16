@@ -7,12 +7,18 @@
         <h1 class="text-dark fw-bold text-center mb-2">
             <i class="fa-solid fa-clipboard-check"></i> TaskFlow
         </h1>
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-control" name="email" value="{{ old('email') }}" autofocus
-                    placeholder="Enter Email">
+                <input type="email" id="email" class="form-control" name="email" value="{{ old('email') }}"
+                    autofocus placeholder="Enter Email">
                 @error('email')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror

@@ -105,6 +105,9 @@ class UserController extends Controller
 
         $user->update(['is_active' => $newsStatus]);
 
+        session_reset();
+
+
         return redirect()->back()->with('success', 'User Status Updated Successfully');
     }
 }

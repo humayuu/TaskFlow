@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AuthRoleMiddleware;
+use App\Http\Middleware\CheckStatusMiddleware;
 use App\Http\Middleware\UpdateTaskStatusMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'updateStatus' => UpdateTaskStatusMiddleware::class,
             'auth-role' => AuthRoleMiddleware::class,
+            'check-status' => CheckStatusMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

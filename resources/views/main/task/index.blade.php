@@ -19,7 +19,7 @@
             <select class="form-select" name="status" aria-label="Filter by status" onchange="this.form.submit()">
                 <option value="" {{ !request('status') ? 'selected' : '' }}>All Tasks</option>
                 <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                <option value="complete" {{ request('status') == 'complete' ? 'selected' : '' }}>Complete</option>
                 <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
                 <option value="due" {{ request('status') == 'due' ? 'selected' : '' }}>Due (overdue)</option>
             </select>
@@ -55,8 +55,8 @@
                             @php
                                 $statusColors = [
                                     'pending' => 'danger',
-                                    'in_progress' => 'warning',
-                                    'completed' => 'success',
+                                    'in_progress' => 'dark',
+                                    'complete' => 'success',
                                 ];
                             @endphp
                             <td class="text-{{ $statusColors[$task->status] ?? 'secondary' }}">
@@ -69,18 +69,25 @@
                                         title="Deactivate">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('task.edit', $task->id) }}" class="btn btn btn-primary"
-                                        title="Edit">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </a>
+                                    @if (Auth::user()->role == 'admin' ||
+                                            $task->status == 'pending' ||
+                                            $task->status == 'due' ||
+                                            $task->status == 'in_progress')
+                                        <a href="{{ route('task.edit', $task->id) }}" class="btn btn-primary"
+                                            title="Edit">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                    @endif
 
-                                    <form method="POST" action="{{ route('task.destroy', $task->id) }}"
-                                        onsubmit="return confirm('Are you sure you want to delete this task?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn btn-danger" title="Delete"><i
-                                                class="fa-solid fa-trash"></i></button>
-                                    </form>
+                                    @if (Auth::user()->role == 'admin')
+                                        <form method="POST" action="{{ route('task.destroy', $task->id) }}"
+                                            onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn btn-danger" title="Delete"><i
+                                                    class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

@@ -24,5 +24,9 @@ Route::middleware(['auth', 'check-status'])->group(function () {
         ->name('users.status.update');
 
     Route::resource('users', UserController::class)->middleware(AuthRoleMiddleware::class);
+
+    Route::put('/task/status/{id}', [TaskController::class, 'updateTaskStatus'])
+        ->name('task.update.status');
+
     Route::resource('task', TaskController::class)->middleware(UpdateTaskStatusMiddleware::class);
 });

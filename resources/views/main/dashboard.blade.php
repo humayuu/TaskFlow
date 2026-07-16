@@ -161,13 +161,15 @@
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
 
-                                            <form method="POST" action="{{ route('task.destroy', $task->id) }}"
-                                                onsubmit="return confirm('Are you sure you want to delete this task?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn btn-danger" title="Delete"><i
-                                                        class="fa-solid fa-trash"></i></button>
-                                            </form>
+                                            @if (Auth::user()->role == 'admin')
+                                                <form method="POST" action="{{ route('task.destroy', $task->id) }}"
+                                                    onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn btn-danger" title="Delete"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

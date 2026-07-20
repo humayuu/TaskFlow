@@ -27,7 +27,7 @@ class DashboardController extends Controller
             $employees = User::where('role', 'employee')->count();
 
             // For Latest Task 
-            $latestTask = Task::whereDate("created_at", today())->get();
+            $latestTask = Task::whereDate("created_at", today())->paginate(5);
             return view("main.dashboard", compact('pendingTask', 'inProgressTask', 'completeTask', 'dueTask', 'managers', 'admins', 'employees', 'latestTask'));
         } elseif (Auth::user()->role == "employee") {
             // For Task Count
@@ -36,7 +36,7 @@ class DashboardController extends Controller
             $completeTask = Task::where('status', 'complete')->where('user_id', Auth::user()->id)->count();
             $dueTask = Task::where('status', 'due')->where('user_id', Auth::user()->id)->count();
 
-            $latestTask = Task::whereDate("created_at", today())->where('user_id', Auth::user()->id)->get();
+            $latestTask = Task::whereDate("created_at", today())->where('user_id', Auth::user()->id)->paginate(5);
             return view("main.dashboard", compact('pendingTask', 'inProgressTask', 'completeTask', 'dueTask', 'latestTask'));
         } elseif (Auth::user()->role == "manager") {
             // For Task Count
@@ -45,7 +45,7 @@ class DashboardController extends Controller
             $completeTask = Task::where('status', 'complete')->where('user_id', Auth::user()->id)->count();
             $dueTask = Task::where('status', 'due')->where('user_id', Auth::user()->id)->count();
 
-            $latestTask = Task::whereDate("created_at", today())->where('user_id', Auth::user()->id)->get();
+            $latestTask = Task::whereDate("created_at", today())->where('user_id', Auth::user()->id)->paginate(5);
             return view("main.dashboard", compact('pendingTask', 'inProgressTask', 'completeTask', 'dueTask', 'latestTask'));
         }
     }

@@ -176,6 +176,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $latestTask->links() }}
                 </div>
             </div>
         </div>

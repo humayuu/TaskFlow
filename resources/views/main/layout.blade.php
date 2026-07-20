@@ -72,7 +72,8 @@
                     <li><a class="dropdown-item" href="{{ url('change/password') }}"><i
                                 class="fa-solid fa-gear me-2"></i>Change Password</a>
                     </li>
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ url('profile') }}"><i
+                                class="fa-solid fa-user me-2"></i>Profile</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

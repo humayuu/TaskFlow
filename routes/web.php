@@ -21,6 +21,10 @@ Route::middleware(['auth', 'check-status'])->group(function () {
     Route::get('/change/password', function () {
         return view('change-password');
     });
+
+    Route::get('/profile', function () {
+        return view('profile');
+    });
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'dashboard');
     });
